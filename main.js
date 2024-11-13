@@ -1,6 +1,6 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
+import { OBJLoader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/loaders/OBJLoader.js';
+import {MTLLoader} from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/loaders/MTLLoader.js';
 import * as controlSettings from './controls.js';
 
 // Three.JS
