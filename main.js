@@ -1,51 +1,62 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
+import * as controlSettings from './controls.js';
 
+// Three.JS
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector('#bg'),
 });
 
-const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(0, -10, 10);
-
-const ambientLight = new THREE.AmbientLight(0xffffff, 0);
-ambientLight.position.set(25, -15, -400);
-
-const geometry = new THREE.BoxGeometry(10, 10, 10);
-
-const material = new THREE.MeshStandardMaterial( { color: 0xFF6347 } );
-const cube = new THREE.Mesh( geometry, material );
-
-const bg = new THREE.TextureLoader().load('images/giants.PNG')
+// Background
+const bg = new THREE.TextureLoader().load('images/background.PNG')
 scene.background = bg;
 
-const ico = new THREE.IcosahedronGeometry(10);
-const icoMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-const icoMesh = new THREE.Mesh(ico, icoMaterial);
+// Cottage Level
+const mtlCottageLoader  = new MTLLoader();
+mtlCottageLoader.load('models/levels/cottage/cottage.mtl', (mtl) =>{
+   mtl.preload();
+   let objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load( 'models/levels/cottage/cottage.obj', function ( obj ) {
+        scene.add( obj );
+        obj.scale.set(5,5,5);
+        obj.position.setY(-1);
+        obj.position.setX(-15);
+        obj.position.setZ(70);
+    });
+});
 
-scene.add( cube );
-scene.add(icoMesh);
-scene.add(pointLight);
+// Cottage Level
+const mtlHatmanLoader  = new MTLLoader();
+mtlHatmanLoader.load('models/levels/cottage/cottage.mtl', (mtl) =>{
+    mtl.preload();
+    let objLoader = new OBJLoader();
+    objLoader.setMaterials(mtl);
+    objLoader.load( 'models/levels/cottage/cottage.obj', function ( obj ) {
+        scene.add( obj );
+    });
+});
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+ambientLight.position.set(25, -15, -400);
 scene.add(ambientLight);
-
-cube.position.x = 50
-icoMesh.position.x = -50
 
 function animate() {
     requestAnimationFrame( animate );
-    // slowly rotate the cube:
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    // rotate the icosahedron a little faster in the opposite direction:
-    icoMesh.rotation.z += -0.03
-    icoMesh.rotation.y += -0.03
-
+    controlSettings.updateControls( camera );
     renderer.render( scene, camera );
 }
 animate()
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
