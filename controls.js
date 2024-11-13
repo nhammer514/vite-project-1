@@ -47,7 +47,6 @@ function updateControls(_camera) {
         _camera.getWorldDirection(direction);
         _camera.position.add(direction.cross(_camera.up).multiplyScalar(moveSpeed));
     }
-    _camera.position.setY(0)
 }
 
 export { keys, moveSpeed, rotateSpeed, updateControls };

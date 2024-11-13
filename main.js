@@ -31,12 +31,16 @@ mtlCottageLoader.load('models/levels/cottage/cottage.mtl', (mtl) =>{
 
 // Cottage Level
 const mtlHatmanLoader  = new MTLLoader();
-mtlHatmanLoader.load('models/levels/cottage/cottage.mtl', (mtl) =>{
+mtlHatmanLoader.load('models/hatman/hatman.mtl', (mtl) =>{
     mtl.preload();
     let objLoader = new OBJLoader();
     objLoader.setMaterials(mtl);
-    objLoader.load( 'models/levels/cottage/cottage.obj', function ( obj ) {
+    objLoader.load( 'models/hatman/hatman.obj', function ( obj ) {
         scene.add( obj );
+        obj.scale.set(0.002,0.002,0.002);
+        obj.position.setZ(40);
+        obj.position.setY(-1);
+        obj.rotation.x = -Math.PI / 2;
     });
 });
 
