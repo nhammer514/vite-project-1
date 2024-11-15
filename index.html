@@ -10,12 +10,18 @@
     <script type="module" src="./main.js"></script>
     <canvas id="bg"></canvas>
     <div class="ui topLeft-corner">
-      <h1>LSD Browser Emulator</h1>
+      <p><b>LSD Browser Emulator</b></p>
       <p> WASD to move. Arrow keys to look around.</p>
     </div>
     <div class="ui topRight-corner">
       <h1>Debug</h1>
-      <p> WASD to move. Arrow keys to look around.</p>
+      <label> Level: </label>
+      <select name="level" id="levelSelect">
+        <option value="cottage">Cottage</option>
+        <option value="happytown">Happy Town</option>
+        <option value="kyoto">Kyoto</option>
+      </select>
+      <button id="changeLvl">Change</button>
     </div>
   </body>
 </html>
